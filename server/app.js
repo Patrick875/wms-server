@@ -36,6 +36,7 @@ const invitationsRouter = require("./routes/invitationsRoutes");
 
 const app = express();
 const cors = require("cors");
+
 //middleware
 
 app.use(cookieParser());
@@ -57,32 +58,6 @@ app.use(function (req, res, next) {
 	next();
 });
 app.use(helmet());
-
-app.use("/api/v1/users", userRouter);
-app.use("/api/v1/orders", orderRouter);
-app.use("/api/v1/band", bandRouter);
-app.use("/api/v1/bridesmaids", bridesmaidsRouter);
-app.use("/api/v1/groomsmaids", groomsmaidsRouter);
-app.use("/api/v1/cakes", cakesRouter);
-app.use("/api/v1/cars", carsRouter);
-app.use("/api/v1/catering", cateringRouter);
-app.use("/api/v1/shoe", shoeRouter);
-app.use("/api/v1/itorero", itoreroRouter);
-app.use("/api/v1/costumes", costumesRouter);
-app.use("/api/v1/flowers", flowersRouter);
-app.use("/api/v1/dress", dressRouter);
-app.use("/api/v1/decoration", decorationRouter);
-app.use("/api/v1/dj", djRouter);
-app.use("/api/v1/hairstyles", hairstyleRouter);
-app.use("/api/v1/location", locationRouter);
-app.use("/api/v1/makeup", makeupRouter);
-app.use("/api/v1/mc", mcRouter);
-app.use("/api/v1/photoandvideo", photoVideoRouter);
-app.use("/api/v1/church", churchsRouter);
-app.use("/api/v1/pastor", pastorsRouter);
-app.use("/api/v1/rings", ringsRouter);
-app.use("/api/v1/singer", singerRouter);
-app.use("/api/v1/invitation", invitationsRouter);
 
 app.post("/api/v1/payments", async (req, res) => {
 	let error, status;
@@ -160,6 +135,40 @@ app.post("/api/v1/create-checkout-session", async (req, res) => {
 		});
 	}
 });
+
+/*
+Trying to implement image upload for all routes except the routes for payment
+the imageUploader middleware uploads images to cloudinary and returns an https link
+*/
+
+// app.route("api/v1/").post(imageUploader).patch(imageUploader);
+
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/orders", orderRouter);
+app.use("/api/v1/band", bandRouter);
+app.use("/api/v1/bridesmaids", bridesmaidsRouter);
+app.use("/api/v1/groomsmaids", groomsmaidsRouter);
+app.use("/api/v1/cakes", cakesRouter);
+app.use("/api/v1/cars", carsRouter);
+app.use("/api/v1/catering", cateringRouter);
+app.use("/api/v1/shoe", shoeRouter);
+app.use("/api/v1/itorero", itoreroRouter);
+app.use("/api/v1/costumes", costumesRouter);
+app.use("/api/v1/flowers", flowersRouter);
+app.use("/api/v1/dress", dressRouter);
+app.use("/api/v1/decoration", decorationRouter);
+app.use("/api/v1/dj", djRouter);
+app.use("/api/v1/hairstyles", hairstyleRouter);
+app.use("/api/v1/location", locationRouter);
+app.use("/api/v1/makeup", makeupRouter);
+app.use("/api/v1/mc", mcRouter);
+app.use("/api/v1/photoandvideo", photoVideoRouter);
+app.use("/api/v1/church", churchsRouter);
+app.use("/api/v1/pastor", pastorsRouter);
+app.use("/api/v1/rings", ringsRouter);
+app.use("/api/v1/singer", singerRouter);
+app.use("/api/v1/invitation", invitationsRouter);
+
 app.all("*", (req, res, next) => {
 	res.status(404).json({
 		status: "Fail",

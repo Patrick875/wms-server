@@ -2,6 +2,12 @@
 const cloudinary = require("cloudinary");
 
 module.exports = async function imageUploader(req, res, next) {
+	/*
+		@params (req,)
+		checks if the file contains an image, images and uploads it to cloudinary
+		@return an https link
+	*/
+
 	let promises = [];
 	let thumbnailPromises = [];
 	let profilePromises = [];
@@ -60,9 +66,11 @@ module.exports = async function imageUploader(req, res, next) {
 			images = images.map((image) => image.secure_url);
 			req.body.images = images;
 		}
+		console.log("IMAGE UPLOADER AT WORK");
 
 		next();
 	} else {
+		console.log("NOTHING TO SEE HERE!!!");
 		return next();
 	}
 };

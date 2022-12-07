@@ -1,3 +1,4 @@
+const imageUploader = require("../utils/imageUploader");
 const Costume = require("./../models/costumesModel");
 
 exports.getAllCostumes = async (req, res) => {
@@ -19,7 +20,7 @@ exports.getCostume = async (req, res) => {
 		},
 	});
 };
-exports.addCostume = async (req, res) => {
+exports.addCostume = async (req, res, next) => {
 	try {
 		const newCostume = await Costume.create(req.body);
 		res.status(201).json({
@@ -28,6 +29,7 @@ exports.addCostume = async (req, res) => {
 				newCostume,
 			},
 		});
+		console.log(req);
 	} catch (error) {
 		console.log({ error: error.name, errorMessage: error.message });
 		res.status(400).json({

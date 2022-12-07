@@ -66,11 +66,11 @@ const userSchema = mongoose.Schema({
 	passwordResetExpires: Date,
 });
 
-// userSchema.pre("save", async function (next) {
-// 	if (!this.isModified("password")) return next();
-// 	this.password = await bcrypt.hash(this.password, 12);
-// 	this.confirmPassword = undefined;
-// });
+userSchema.pre("save", async function (next) {
+	if (!this.isModified("password")) return next();
+	this.password = await bcrypt.hash(this.password, 12);
+	this.confirmPassword = undefined;
+});
 userSchema.statics.accountExists = async function (signupData) {
 	if (!signupData) throw new Error("invalid data");
 	try {
@@ -82,21 +82,21 @@ userSchema.statics.accountExists = async function (signupData) {
 		return false;
 	}
 };
-// userSchema.methods.checkPassword = async function (
-// 	enteredPassword,
-// 	storedPassword
-// ) {
-// 	return await bcrypt.compare(enteredPassword, storedPassword);
-// };
-// userSchema.methods.checkChangedPasswords = function (tokenIssueTime) {
-// 	console.log("HERE HERE");
-// 	if (this.passwordChangedAt) {
-// 		const changedTimeStamp = this.passwordChangedAt.getTime() / 1000;
-// 		return JWTTimestamp < changedTimeStamp;
-// 	}
-// 	//false not change....
-// 	return false;
-// };
+userSchema.methods.checkPassword = async function (
+	enteredPassword,
+	storedPassword
+) {
+	return await bcrypt.compare(enteredPassword, storedPassword);
+};
+userSchema.methods.checkChangedPasswords = function (tokenIssueTime) {
+	console.log("HERE HERE");
+	if (this.passwordChangedAt) {
+		const changedTimeStamp = this.passwordChangedAt.getTime() / 1000;
+		return JWTTimestamp < changedTimeStamp;
+	}
+	//false not change....
+	return false;
+};
 
 const User = new mongoose.model("User", userSchema);
 
